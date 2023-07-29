@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import TokenContext from '../../components/store/token-context';
 import classes from './AuthForm.module.css';
 
@@ -8,7 +9,7 @@ const AuthForm = () => {
    const tokenCtx = useContext(TokenContext);
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading]= useState(false);
-
+  const  history= useHistory();
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -45,6 +46,7 @@ const AuthForm = () => {
 if(res.ok){
           const data = await res.json();
           tokenCtx.login(data.idToken);
+          history.replace('/');
           resetForm();
           console.log(data);
           return data;
