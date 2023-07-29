@@ -1,16 +1,21 @@
-import { useState, useRef } from 'react';
-
+import { useState, useRef, useContext } from 'react';
+import TokenContext from '../../components/store/token-context';
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
    const emailInputRef = useRef();
    const passwordInputRef = useRef();
+   const tokenCtx = useContext(TokenContext);
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading]= useState(false);
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
+  const resetForm = ()=>{
+    emailInputRef.current.value="";
+    passwordInputRef.current.value="";
+  }
 
   const submitHandler = async (event)=>{
     event.preventDefault();
@@ -39,6 +44,8 @@ const AuthForm = () => {
       setIsLoading(false);
 if(res.ok){
           const data = await res.json();
+          tokenCtx.login(data.idToken);
+          resetForm();
           console.log(data);
           return data;
         }else{
