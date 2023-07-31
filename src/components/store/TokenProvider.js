@@ -17,6 +17,10 @@ const logoutHandler =(tokenId)=>{
     setToken(null);
     localStorage.removeItem("user");
 };
+
+setTimeout(()=>{
+    loginHandler();
+},5*6000);
 const tokenContext={
     token: token,
     isLoggedIn: userIsLoggedIn,
